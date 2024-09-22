@@ -8,8 +8,7 @@ let total = document.getElementById("total");
 let count = document.getElementById("count");
 let category = document.getElementById("category");
 let create = document.getElementById("create");
-let mood = 'create' ;
-let test
+let mood = "create";
 
 // get total
 function getTotal() {
@@ -40,33 +39,32 @@ create.onclick = function () {
     count: count.value,
     category: category.value.toLowerCase(),
   };
-  if(title.value != "" && price.value != "" && category.value != "" && newobject.count < 100){
-    if(mood === 'create'){
-      if(newobject.count > 1){
-        for(let i=0; i< newobject.count ; i++){
+  if (
+    title.value != "" &&
+    price.value != "" &&
+    category.value != "" &&
+    newobject.count < 100
+  ) {
+    if (mood === "create") {
+      if (newobject.count > 1) {
+        for (let i = 0; i < newobject.count; i++) {
           saveData.push(newobject);
         }
-      }
-      else{
+      } else {
         saveData.push(newobject);
       }
-    }
-    else{
-      saveData[test]=newobject;
-      mood='create';
-      create.innerText ="create";
-      count.style.discount ='block';
+    } else {
+      saveData[test] = newobject;
+      mood = "create";
+      create.innerText = "create";
+      count.style.discount = "block";
     }
     clearData();
+  } else {
   }
-  else{
 
-  }
-  
-  
   localStorage.setItem("product", JSON.stringify(saveData)); // Save the array
 
-  
   showData();
 };
 
@@ -88,7 +86,7 @@ function showData() {
   for (let i = 0; i < saveData.length; i++) {
     table += `
       <tr>
-        <td>${i+1}</td>
+        <td>${i + 1}</td>
         <td>${saveData[i].title}</td>
         <td>${saveData[i].price}</td>
         <td>${saveData[i].taxes}</td>
@@ -105,9 +103,8 @@ function showData() {
   let btnDelete = document.getElementById("deleteAll");
   if (saveData.length > 0) {
     btnDelete.innerHTML = `<button onclick='deleteAll()' id="deleteA">delete All</button>`;
-  }
-  else{
-    btnDelete.innerHTML = '';
+  } else {
+    btnDelete.innerHTML = "";
   }
 }
 showData();
@@ -120,55 +117,53 @@ function deleteData(i) {
 }
 
 // delete all
-function deleteAll(){
+function deleteAll() {
   localStorage.clear();
   saveData.splice(0);
   showData();
 }
 
 // update data
-function updateData(i){
+function updateData(i) {
   title.value = saveData[i].title;
   price.value = saveData[i].price;
   taxes.value = saveData[i].taxes;
   ads.value = saveData[i].ads;
   discount.value = saveData[i].discount;
   getTotal();
-  count.style.display = 'none';
-  category.value= saveData[i].category;
-  create.innerHTML = 'Update';
+  count.style.display = "none";
+  category.value = saveData[i].category;
+  create.innerHTML = "Update";
   mood = "update";
-  test =i;
+  test = i;
   scroll({
-    top: 0, 
-    behavior :'smooth',
-  })
+    top: 0,
+    behavior: "smooth",
+  });
 }
 
-// search 
-let search ='title'; 
-let searchIcon = document.getElementById('search');
-function getSearchMethod(id){
-  if(id === 'searchbytitle'){
-    search='title';
+// search
+let search = "title";
+let searchIcon = document.getElementById("search");
+function getSearchMethod(id) {
+  if (id === "searchbytitle") {
+    search = "title";
     searchIcon.placeholder = "search by title";
+  } else {
+    search = "category";
+    searchIcon.placeholder = "search by category";
   }
-  else{
-  search ='category';
-  searchIcon.placeholder = "search by category";
-
-}
   searchIcon.focus();
-  searchIcon.value ='';
+  searchIcon.value = "";
   showData();
 }
 
-function searchData(value){
-  let table = '';
-  if(search === 'title'){
-    for(let i=0; i< saveData.length ; i++){
-      if(saveData[i].title.includes(value.toLowerCase())){
-        table +=`
+function searchData(value) {
+  let table = "";
+  if (search === "title") {
+    for (let i = 0; i < saveData.length; i++) {
+      if (saveData[i].title.includes(value.toLowerCase())) {
+        table += `
         <tr>
           <td>${i}</td>
           <td>${saveData[i].title}</td>
@@ -182,12 +177,12 @@ function searchData(value){
           <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
         </tr>
       `;
-      }}
-  }
-  else{
-    for(let i=0; i< saveData.length ; i++){
-      if(saveData[i].category.includes(value.toLowerCase())){
-        table +=`
+      }
+    }
+  } else {
+    for (let i = 0; i < saveData.length; i++) {
+      if (saveData[i].category.includes(value.toLowerCase())) {
+        table += `
         <tr>
           <td>${i}</td>
           <td>${saveData[i].title}</td>
@@ -201,7 +196,8 @@ function searchData(value){
           <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
         </tr>
       `;
-      }}
+      }
+    }
   }
-    document.getElementById("tbody").innerHTML = table;
+  document.getElementById("tbody").innerHTML = table;
 }

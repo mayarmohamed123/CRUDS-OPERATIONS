@@ -1,4 +1,3 @@
-// select the elements
 let title = document.getElementById("title");
 let price = document.getElementById("price");
 let taxes = document.getElementById("taxes");
@@ -9,8 +8,9 @@ let count = document.getElementById("count");
 let category = document.getElementById("category");
 let create = document.getElementById("create");
 let mood = "create";
+let test;
 
-// get total
+// Get total
 function getTotal() {
   if (price.value != "") {
     let result = +price.value + +taxes.value + +ads.value - +discount.value;
@@ -20,7 +20,7 @@ function getTotal() {
   }
 }
 
-// create product
+// Create product
 let saveData;
 if (localStorage.product == null) {
   saveData = [];
@@ -48,7 +48,7 @@ create.onclick = function () {
     if (mood === "create") {
       if (newobject.count > 1) {
         for (let i = 0; i < newobject.count; i++) {
-          saveData.push(newobject);
+          saveData.push({ ...newobject, count: 1 });
         }
       } else {
         saveData.push(newobject);
@@ -57,18 +57,18 @@ create.onclick = function () {
       saveData[test] = newobject;
       mood = "create";
       create.innerText = "create";
-      count.style.discount = "block";
+      count.style.display = "block"; // Corrected here
     }
     clearData();
   } else {
+    alert("Please fill in all required fields correctly."); // Added validation feedback
   }
 
   localStorage.setItem("product", JSON.stringify(saveData)); // Save the array
-
   showData();
 };
 
-// clear inputs
+// Clear inputs
 function clearData() {
   title.value = "";
   price.value = "";
@@ -109,21 +109,21 @@ function showData() {
 }
 showData();
 
-// delete
+// Delete
 function deleteData(i) {
   saveData.splice(i, 1);
   localStorage.product = JSON.stringify(saveData);
   showData();
 }
 
-// delete all
+// Delete all
 function deleteAll() {
   localStorage.clear();
   saveData.splice(0);
   showData();
 }
 
-// update data
+// Update data
 function updateData(i) {
   title.value = saveData[i].title;
   price.value = saveData[i].price;
@@ -131,7 +131,7 @@ function updateData(i) {
   ads.value = saveData[i].ads;
   discount.value = saveData[i].discount;
   getTotal();
-  count.style.display = "none";
+  count.style.display = "none"; // Corrected here
   category.value = saveData[i].category;
   create.innerHTML = "Update";
   mood = "update";
@@ -142,9 +142,10 @@ function updateData(i) {
   });
 }
 
-// search
+// Search
 let search = "title";
 let searchIcon = document.getElementById("search");
+
 function getSearchMethod(id) {
   if (id === "searchbytitle") {
     search = "title";
@@ -165,7 +166,7 @@ function searchData(value) {
       if (saveData[i].title.includes(value.toLowerCase())) {
         table += `
         <tr>
-          <td>${i}</td>
+          <td>${i + 1}</td>
           <td>${saveData[i].title}</td>
           <td>${saveData[i].price}</td>
           <td>${saveData[i].taxes}</td>
@@ -184,7 +185,7 @@ function searchData(value) {
       if (saveData[i].category.includes(value.toLowerCase())) {
         table += `
         <tr>
-          <td>${i}</td>
+          <td>${i + 1}</td>
           <td>${saveData[i].title}</td>
           <td>${saveData[i].price}</td>
           <td>${saveData[i].taxes}</td>

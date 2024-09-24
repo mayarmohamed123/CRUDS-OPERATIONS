@@ -57,7 +57,7 @@ create.onclick = function () {
       saveData[test] = newobject;
       mood = "create";
       create.innerText = "create";
-      count.style.display = "block"; // Corrected here
+      count.style.display = "block";
     }
     clearData();
   } else {
@@ -131,7 +131,7 @@ function updateData(i) {
   ads.value = saveData[i].ads;
   discount.value = saveData[i].discount;
   getTotal();
-  count.style.display = "none"; // Corrected here
+  count.style.display = "none";
   category.value = saveData[i].category;
   create.innerHTML = "Update";
   mood = "update";
